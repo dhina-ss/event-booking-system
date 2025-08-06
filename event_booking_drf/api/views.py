@@ -1,11 +1,11 @@
-from rest_framework.views import APIView, status
-from .models import Event, EventBooking
 from .serializers import EventSerializer, EventBookingSerializer
-from rest_framework.response import Response
-from django.http import JsonResponse
-from drf_yasg.utils import swagger_auto_schema
-from django.http import Http404
 from rest_framework.generics import RetrieveAPIView
+from rest_framework.views import APIView, status
+from drf_yasg.utils import swagger_auto_schema
+from rest_framework.response import Response
+from .models import Event, EventBooking
+from django.http import JsonResponse
+from django.http import Http404
 
 class EventAPIView(APIView):
     
@@ -44,6 +44,14 @@ class EventReserveAPIView(APIView):
         if event.event_booking.filter(email=email).exists():
             return Response({"error": "email already registered. use different email."})
         
+        try:
+            age = int(request.data.get('age', 0))
+        except ValueError:
+            return Response({"error": "Invalid age value"}, status=status.HTTP_400_BAD_REQUEST)
+        if age < event.age_limit:
+            return Response({"error": f"You are underage for this event. Minimum age is {event.age_limit}."}, 
+                            status=status.HTTP_400_BAD_REQUEST)
+        
         serializer = EventBookingSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(event=event)
@@ -75,4 +83,3 @@ class EventTicketAPIView(APIView):
         except EventBooking.DoesNotExist:
             return JsonResponse({'error': 'Booking not found'}, status=status.HTTP_404_NOT_FOUND)
         
-

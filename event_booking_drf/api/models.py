@@ -40,6 +40,10 @@ class Event(models.Model):
             else:
                 last_number = 0
             self.event_id = f"E{last_number + 1:03d}"
+
+        if not self.available_seat_count:
+            self.available_seat_count = self.total_seat_count
+
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -49,10 +53,13 @@ class EventBooking(models.Model):
     event = models.ForeignKey('Event', on_delete=models.CASCADE, related_name='event_booking')
     booking_id = models.CharField(max_length=50, primary_key=True, editable=False)
     name = models.CharField(max_length=100)
+    age = models.IntegerField(default=18)
     seat_number = models.CharField(max_length=50, null=True)
     email = models.EmailField(null=True)
 
     def save(self, *args, **kwargs):
+        is_new = self._state.adding 
+
         if not self.booking_id:
             last_booking = EventBooking.objects.order_by('-booking_id').first()
             if last_booking and last_booking.booking_id[1:].isdigit():
@@ -74,14 +81,11 @@ class EventBooking(models.Model):
             else:
                 self.seat_number = "A1"
 
-        if not self.pk:
-            if self.event.available_seat_count is None:
-                self.event.available_seat_count = self.event.total_seat_count
+        if is_new:
             if self.event.available_seat_count <= 0:
                 raise ValueError("No seats available for this event")
             self.event.available_seat_count -= 1
             self.event.save()
-
         super().save(*args, **kwargs)
 
     def __str__(self):
