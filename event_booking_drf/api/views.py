@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from django.http import JsonResponse
 from drf_yasg.utils import swagger_auto_schema
 from django.http import Http404
+from rest_framework.generics import RetrieveAPIView
 
 class EventAPIView(APIView):
     
@@ -21,19 +22,11 @@ class EventAPIView(APIView):
             return Response({'message': 'Event Created Successfully'}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-class EventDetailsAPIView(APIView):
+class EventDetailsAPIView(RetrieveAPIView):
+    queryset = Event.objects.all()
+    serializer_class = EventSerializer
+    lookup_field = 'event_id'
 
-    def get_object(self, event_id):
-        try:
-            return Event.objects.get(event_id=event_id)
-        except Event.DoesNotExist:
-            raise Http404
-        
-    def get(self, request, event_id):
-        event = self.get_object(event_id)
-        serializer = EventSerializer(event)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    
 class EventReserveAPIView(APIView):
     
     @swagger_auto_schema(request_body=EventBookingSerializer)
@@ -57,17 +50,10 @@ class EventReserveAPIView(APIView):
             return Response({"message": "Your seat is booked"}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-class EventBookingAPIView(APIView):
-        
-    def get(self, request, event_id):
-        try:
-            event = Event.objects.get(event_id=event_id)
-        except EventBooking.DoesNotExist:
-            return Response({"error": "Event not found"}, status=status.HTTP_404_NOT_FOUND)
-        
-        booking_users = event.event_booking.all()
-        serializer = EventBookingSerializer(booking_users, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+class EventBookingAPIView(RetrieveAPIView):
+    queryset = EventBooking.objects.all()
+    serializer_class = EventBookingSerializer
+    lookup_field = 'event_id'
 
 class EventTicketAPIView(APIView):
 

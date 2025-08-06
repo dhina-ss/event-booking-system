@@ -74,6 +74,14 @@ class EventBooking(models.Model):
             else:
                 self.seat_number = "A1"
 
+        if not self.pk:
+            if self.event.available_seat_count is None:
+                self.event.available_seat_count = self.event.total_seat_count
+            if self.event.available_seat_count <= 0:
+                raise ValueError("No seats available for this event")
+            self.event.available_seat_count -= 1
+            self.event.save()
+
         super().save(*args, **kwargs)
 
     def __str__(self):
