@@ -28,7 +28,7 @@ class EventDetailsAPIView(RetrieveAPIView):
     permission_classes = [IsAuthenticated]
     queryset = Event.objects.all()
     serializer_class = EventSerializer
-    lookup_field = 'event_id'
+    # lookup_field = 'event_id'
 
 class EventReserveAPIView(APIView):
     permission_classes = [IsAuthenticated]
