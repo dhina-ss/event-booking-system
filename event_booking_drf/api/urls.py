@@ -9,6 +9,6 @@ urlpatterns = [
     path('event/', EventAPIView.as_view(), name='event'),
     path('event/<str:event_id>/', EventDetailsAPIView.as_view(), name='event_details'),
     path('event/<str:event_id>/reserve/', EventReserveAPIView.as_view(), name='event_reserve'),
-    path('event/<str:event_id>/bookings/', EventBookingAPIView.as_view(), name='event_booking'),
+    path('event/<str:event_id>/bookings/', EventBookingAPIView.as_view(), name='event_booking_details'),
     path('event/ticket/<str:booking_id>/download/', EventTicketAPIView.as_view(), name='ticket_download'),
 ]
