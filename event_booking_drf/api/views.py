@@ -1,6 +1,7 @@
 from .serializers import EventSerializer, EventBookingSerializer
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.generics import RetrieveAPIView, ListAPIView
+from rest_framework.pagination import PageNumberPagination
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView, status
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.response import Response
@@ -8,13 +9,16 @@ from .models import Event, EventBooking
 from django.http import JsonResponse
 from django.http import Http404
 
+
 class EventAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
         event = Event.objects.order_by('date')
-        serializer = EventSerializer(event, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        paginator = PageNumberPagination()
+        paginated_event = paginator.paginate_queryset(event, request)
+        serializer = EventSerializer(paginated_event, many=True)
+        return paginator.get_paginated_response(serializer.data)
     
     @swagger_auto_schema(request_body=EventSerializer)
     def post(self, request):
@@ -65,6 +69,7 @@ class EventReserveAPIView(APIView):
 class EventBookingAPIView(ListAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = EventBookingSerializer
+    pagination_class = PageNumberPagination
     
     def get_queryset(self):
         event_id = self.kwargs.get('event_id')
