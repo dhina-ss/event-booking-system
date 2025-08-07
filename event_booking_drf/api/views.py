@@ -75,6 +75,12 @@ class EventBookingAPIView(ListAPIView):
         event_id = self.kwargs.get('event_id')
         return EventBooking.objects.filter(event__event_id=event_id)
 
+class BookingAPIView(ListAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = EventBooking.objects.all()
+    serializer_class = EventBookingSerializer
+    pagination_class = PageNumberPagination
+
 class EventTicketAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
