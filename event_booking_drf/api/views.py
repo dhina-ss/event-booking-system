@@ -1,4 +1,5 @@
 from .serializers import EventSerializer, EventBookingSerializer
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.generics import RetrieveAPIView
 from rest_framework.views import APIView, status
 from drf_yasg.utils import swagger_auto_schema
@@ -8,7 +9,8 @@ from django.http import JsonResponse
 from django.http import Http404
 
 class EventAPIView(APIView):
-    
+    permission_classes = [IsAuthenticated]
+
     def get(self, request):
         event = Event.objects.order_by('date')
         serializer = EventSerializer(event, many=True)
@@ -23,12 +25,14 @@ class EventAPIView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 class EventDetailsAPIView(RetrieveAPIView):
+    permission_classes = [IsAuthenticated]
     queryset = Event.objects.all()
     serializer_class = EventSerializer
     lookup_field = 'event_id'
 
 class EventReserveAPIView(APIView):
-    
+    permission_classes = [IsAuthenticated]
+
     @swagger_auto_schema(request_body=EventBookingSerializer)
     def post(self, request, event_id):
         try:
@@ -59,11 +63,13 @@ class EventReserveAPIView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 class EventBookingAPIView(RetrieveAPIView):
+    permission_classes = [IsAuthenticated]
     queryset = EventBooking.objects.all()
     serializer_class = EventBookingSerializer
     lookup_field = 'event_id'
 
 class EventTicketAPIView(APIView):
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, booking_id):
         try:
