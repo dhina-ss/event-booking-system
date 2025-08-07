@@ -1,6 +1,6 @@
 from .serializers import EventSerializer, EventBookingSerializer
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.generics import RetrieveAPIView
+from rest_framework.generics import RetrieveAPIView, ListAPIView
 from rest_framework.views import APIView, status
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.response import Response
@@ -62,11 +62,13 @@ class EventReserveAPIView(APIView):
             return Response({"message": "Your seat is booked"}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-class EventBookingAPIView(RetrieveAPIView):
+class EventBookingAPIView(ListAPIView):
     permission_classes = [IsAuthenticated]
-    queryset = EventBooking.objects.all()
     serializer_class = EventBookingSerializer
-    lookup_field = 'event_id'
+    
+    def get_queryset(self):
+        event_id = self.kwargs.get('event_id')
+        return EventBooking.objects.filter(event__event_id=event_id)
 
 class EventTicketAPIView(APIView):
     permission_classes = [IsAuthenticated]
