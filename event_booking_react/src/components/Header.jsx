@@ -2,7 +2,7 @@ import React from "react";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell as faBellRegular, faUserCircle as faUserCircleRegular } from "@fortawesome/free-regular-svg-icons";
-import NavMenu from "./NavMenu";
+
 
 function Header() {
     return (
@@ -26,7 +26,6 @@ function Header() {
                     <FontAwesomeIcon icon={faUserCircleRegular} size="lg" className="cursor-pointer hover:text-[#aca7cb] text-[whitesmoke]" />
                 </div>
             </header>
-            <NavMenu />
         </>
     );
 }
