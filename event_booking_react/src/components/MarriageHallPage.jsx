@@ -17,14 +17,16 @@ const MarriageHallPage = () => {
         phone: "+91 98765 43210",
         description:
             "Royal Palace Hall is an elegant venue perfect for weddings, receptions, and grand celebrations. With a spacious interior, luxurious decor, and top-notch services, it ensures your special day is unforgettable.",
-        facilities: [
-            "Air Conditioning",
-            "Car Parking",
-            "Catering Services",
-            "Stage Decoration",
-            "Sound System",
-            "Changing Rooms",
-        ],
+        facilities: {
+            hallSeatCapacity: "800 - 1000",
+            diningSeatCapacity: "450 - 500",
+            acHall: "Yes",
+            acDining: "Yes",
+            parking: "Yes",
+            soundSystem: "Yes",
+            stage: "Yes",
+        },
+
         image: "https://placehold.co/800x500?text=Marriage+Hall",
         gallery: [
             "https://placehold.co/150x100?text=View+1",
@@ -129,11 +131,24 @@ const MarriageHallPage = () => {
 
                 {/* Facilities */}
                 <h2 className="text-[18px] font-semibold mb-[10px]">Facilities</h2>
-                <ul className="list-disc list-inside text-[14px] space-y-[10px] pl-[20px] mb-[30px]">
-                    {hall.facilities.map((facility, index) => (
-                        <li key={index}>{facility}</li>
-                    ))}
-                </ul>
+                <table className="w-full text-[14px] mb-[30px]">
+                    <tbody>
+                        {Object.entries(hall.facilities).map(([key, value], index) => (
+                            <tr
+                                key={key}
+                                className={`${index % 2 === 0 ? "bg-[#e3e3e3]" : "bg-[transparent]"}`}
+                            >
+                                <td className="p-[10px] font-medium capitalize">
+                                    {key
+                                        .replace(/([A-Z])/g, " $1") // Add space before capital letters
+                                        .replace(/^./, str => str.toUpperCase())} {/* Capitalize first letter */}
+                                </td>
+                                <td className="p-[10px]">{value}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+
 
                 {/* Related Halls */}
                 <h2 className="text-[20px] font-semibold mb-[15px]">Related Halls</h2>

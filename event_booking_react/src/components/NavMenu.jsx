@@ -15,7 +15,7 @@ function NavMenu() {
   ];
 
   return (
-    <nav className="bg-[#c8c5d8] text-white">
+    <nav className="bg-[#e3e3e3] text-[#484848]">
       <ul className="flex items-center justify-left gap-[20px] my-[0] py-[15px] px-[30px]">
         {menuItems.map((item, index) => (
           <li
