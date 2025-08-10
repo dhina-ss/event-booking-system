@@ -1,13 +1,24 @@
-import React from "react";
+import React, {useState} from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar as faStarSolid, faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
+import { faHeart as faHeartSolid } from "@fortawesome/free-solid-svg-icons";
 import { faStar as faStarRegular, faHeart as faHeartRegular } from "@fortawesome/free-regular-svg-icons";
 
+
 function Card({ image, name, rating, price }) {
+    const [liked, setLiked] = useState(false);
+
     return (
         <div className="relative bg-white rounded-[5px] shadow-md overflow-hidden max-w-xs hover:shadow-lg transition">
-            <button className="absolute top-[10px] right-[5px] border-0 bg-transparent hover:text-red-500">
-                <FontAwesomeIcon icon={faHeartRegular} size="lg" />
+            <button
+                onClick={() => setLiked(!liked)}
+                className="absolute top-[10px] right-[5px] border-0 bg-transparent hover:text-red-500 transition cursor-pointer"
+            >
+                <FontAwesomeIcon
+                    icon={liked ? faHeartSolid : faHeartRegular}
+                    size="lg"
+                    className={liked ? "text-[red]" : "text-gray-500"}
+                />
             </button>
             <img
                 src={image}
