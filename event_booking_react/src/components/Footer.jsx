@@ -4,7 +4,7 @@ import { faFacebookF, faTwitter, faInstagram, faLinkedinIn } from "@fortawesome/
 
 const Footer = () => {
     return (
-        <footer className="bg-[#ddc2b3] text-gray-300 py-[30px] mt-[20px]">
+        <footer className="bg-[#3c3c3c] text-[#e3e3e3] py-[30px] mt-[20px]">
             <div className="max-w-[1280px] mx-auto px-[24px] flex flex-wrap gap-[30px]">
 
                 {/* About Section */}

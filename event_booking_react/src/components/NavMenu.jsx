@@ -22,8 +22,8 @@ function NavMenu() {
             key={index}
             className="flex items-center gap-[5px] cursor-pointer hover:text-[#3c3d3e] transition"
           >
-            <FontAwesomeIcon icon={item.icon} />
-            {item.name}
+            <FontAwesomeIcon icon={item.icon} className='text-[15px]'/>
+            <div>{item.name}</div>
           </li>
         ))}
       </ul>
