@@ -1,12 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
+import Breadcrumb from "./Breadcrumb";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar, faMapMarkerAlt, faPhone } from "@fortawesome/free-solid-svg-icons";
+import { faStar as faStarSolid, faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
+import { faStar as faStarRegular } from "@fortawesome/free-regular-svg-icons";
+import { faMapMarkerAlt, faPhone } from "@fortawesome/free-solid-svg-icons";
+
 
 const MarriageHallPage = () => {
     const hall = {
         name: "Royal Palace Hall",
         rating: 4.5,
-        price: "₹25,000 per day",
+        sales_count: 13,
+        discount_price: "25,000",
+        original_price: "30,000",
         location: "Chennai, Tamil Nadu",
         phone: "+91 98765 43210",
         description:
@@ -20,6 +26,13 @@ const MarriageHallPage = () => {
             "Changing Rooms",
         ],
         image: "https://placehold.co/800x500?text=Marriage+Hall",
+        gallery: [
+            "https://placehold.co/150x100?text=View+1",
+            "https://placehold.co/150x100?text=View+2",
+            "https://placehold.co/150x100?text=View+3",
+            "https://placehold.co/150x100?text=View+4",
+            "https://placehold.co/150x100?text=View+5",
+        ],
     };
 
     const relatedHalls = [
@@ -30,46 +43,99 @@ const MarriageHallPage = () => {
 
     return (
         <div className="max-w-[1200px] mx-auto p-[20px]">
-            <div className="flex gap-[20px]">
-                <div className="lg:col-span-8">
+            {/* Breadcrumb */}
+            <Breadcrumb
+                items={[
+                    { label: "Home", link: "/" },
+                    { label: "Marriage Halls", link: "/halls" },
+                    { label: hall.name }
+                ]}
+            />
+
+            {/* Top Section */}
+            <div className="flex gap-[40px]">
+                {/* Left col-7 */}
+                <div className="w-[60%]">
+                    {/* Main Hall Image */}
                     <img
                         src={hall.image}
                         alt={hall.name}
-                        className="w-full rounded-[10px] object-cover"
+                        className="w-full rounded-[10px] object-cover mb-[10px]"
                     />
-                </div>
-                <div className="lg:col-span-4 bg-white shadow-lg rounded-[10px] p-[20px]">
-                    <h1 className="text-[24px] font-bold mb-[10px]">{hall.name}</h1>
-                    <div className="flex items-center mb-[10px]">
-                        {Array.from({ length: 5 }, (_, i) => (
-                            <FontAwesomeIcon
-                                key={i}
-                                icon={faStar}
-                                className={i < Math.floor(hall.rating) ? "text-yellow-500" : "text-gray-300"}
+
+                    {/* Gallery Thumbnails */}
+                    <div className="flex gap-[10px] overflow-x-auto">
+                        {hall.gallery.map((img, index) => (
+                            <img
+                                key={index}
+                                src={img}
+                                alt={`Gallery ${index + 1}`}
+                                className="w-[120px] h-[80px] object-cover rounded-[5px] cursor-pointer hover:opacity-80"
                             />
                         ))}
-                        <span className="ml-[8px] text-[14px] text-gray-500">{hall.rating}/5</span>
                     </div>
-                    <p className="text-green-600 font-semibold text-[18px] mb-[10px]">{hall.price}</p>
+                </div>
+
+                <div className="w-[40%]">
+                    <h1 className="text-[24px] font-[500] mb-[20px]">{hall.name}</h1>
+
+                    {/* Ratings */}
+                    <div className="flex items-center mb-[20px]">
+                        {Array.from({ length: 5 }, (_, i) => {
+                            if (hall.rating >= i + 1) {
+                                return (<FontAwesomeIcon key={i} icon={faStarSolid} className="text-[orange]" />);
+                            } else if (hall.rating >= i + 0.5) {
+                                return (<FontAwesomeIcon key={i} icon={faStarHalfAlt} className="text-[orange]" />);
+                            } else {
+                                return (<FontAwesomeIcon key={i} icon={faStarRegular} className="text-[gray]" />);
+                            }
+                        })}
+                        <span className="ml-[8px] text-[14px] text-gray-500">({hall.sales_count})</span>
+                    </div>
+
+                    {/* Discount Price */}
+                    <div className="flex mb-[20px] gap-[20px]">
+                        <p className="text-[16px] m-[0]">₹ {hall.discount_price}/day</p>
+                        <p className="text-[16px] line-through m-[0]">₹ {hall.original_price}</p>
+                    </div>
+
+                    {/* Location */}
                     <p className="flex items-center text-gray-600 mb-[20px]">
-                        <FontAwesomeIcon icon={faMapMarkerAlt} className="mr-[8px]" />
+                        <FontAwesomeIcon icon={faMapMarkerAlt} className="mr-[2px]" />
                         {hall.location}
                     </p>
-                    <button className="w-full bg-[#ff7a18] hover:bg-[#e56d15] text-white p-[10px] rounded-[5px] mb-[20px] cursor-pointer">
-                        <FontAwesomeIcon icon={faPhone} className="mr-[8px]" />
+                    <p className="text-[15px] leading-[24px] mb-[20px]">{hall.description}</p>
+                    <div className="flex gap-[20px] mb-[20px]">
+                        <button className="w-full bg-[#068488] hover:bg-[#036f72] text-[white] px-[10px] py-[15px] rounded-[5px] border-none cursor-pointer">
+                            Add to Wishlist
+                        </button>
+                        <button className="w-full bg-[#068488] hover:bg-[#036f72] text-[white] px-[10px] py-[15px] rounded-[5px] border-none cursor-pointer">
+                            Add to Compare
+                        </button>
+                    </div>
+
+                    {/* Book Button */}
+                    <button className="w-full bg-[#ff7a18] hover:bg-[#e56d15] text-[white] px-[10px] py-[15px] rounded-[5px] border-none cursor-pointer">
                         Book Now
                     </button>
-                    <h2 className="text-[18px] font-semibold mb-[10px]">Facilities</h2>
-                    <ul className="list-disc list-inside text-[14px] space-y-[4px]">
-                        {hall.facilities.map((facility, index) => (
-                            <li key={index}>{facility}</li>
-                        ))}
-                    </ul>
+
                 </div>
             </div>
+
+            {/* Description */}
             <div className="mt-[30px]">
                 <h2 className="text-[20px] font-semibold mb-[10px]">Description</h2>
                 <p className="text-[15px] leading-[24px] mb-[30px]">{hall.description}</p>
+
+                {/* Facilities */}
+                <h2 className="text-[18px] font-semibold mb-[10px]">Facilities</h2>
+                <ul className="list-disc list-inside text-[14px] space-y-[10px] pl-[20px] mb-[30px]">
+                    {hall.facilities.map((facility, index) => (
+                        <li key={index}>{facility}</li>
+                    ))}
+                </ul>
+
+                {/* Related Halls */}
                 <h2 className="text-[20px] font-semibold mb-[15px]">Related Halls</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-[20px]">
                     {relatedHalls.map((item) => (
