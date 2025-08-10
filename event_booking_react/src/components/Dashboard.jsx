@@ -33,7 +33,7 @@ function Dashboard() {
                     <h2 className="text-2xl font-semibold mb-4 capitalize">
                         {sectionName.replace(/_/g, " ")}
                     </h2>
-                    <div className="grid grid-cols-3 gap-[30px] justify-center mb-[40px]">
+                    <div className="grid grid-cols-4 gap-[30px] justify-center mb-[40px]">
                         {items.map((hall, index) => (
                             <Card key={index} {...hall} />
                         ))}

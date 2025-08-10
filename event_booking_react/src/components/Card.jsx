@@ -43,7 +43,6 @@ function Card({ image, name, rating, price }) {
                                 return (<FontAwesomeIcon key={i} icon={faStarRegular} className="text-gray-300" />);
                             }
                         })}
-                        <span className="ml-2 text-sm text-gray-500">{rating}/5</span>
                     </div>
             </div>
         </div>

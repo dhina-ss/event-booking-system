@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
+import Breadcrumb from "./Breadcrumb";
 
 const MarriageHall = () => {
     const navigate = useNavigate();
@@ -47,8 +48,14 @@ const MarriageHall = () => {
 
     return (
         <div className="max-w-[1200px] mx-auto p-[20px]">
+            <Breadcrumb
+                items={[
+                    { label: "Home", link: "/" },
+                    { label: "Marriage Halls", link: "/marriage-hall" }
+                ]}
+            />
             <div className="flex">
-                <h2 className="text-[24px] mb-[10px] w-[25%] pl-[15px]">Filters</h2>
+                <h2 className="text-[20px] mb-[10px] w-[25%] pl-[15px]">Filters</h2>
                 <h2 className="text-[24px] mb-[20px]">Marriage Halls ({halls.length})</h2>
             </div>
             {/* 12-column grid */}
@@ -98,7 +105,7 @@ const MarriageHall = () => {
                     {halls.map((hall) => (
                         <div
                             key={hall.id}
-                            onClick={() => navigate(`/halls/${hall.id}`)}
+                            onClick={() => navigate(`/marriage-hall/${hall.id}`)}
                             className="bg-white shadow-md rounded-[10px] overflow-hidden cursor-pointer hover:shadow-lg transition"
                         >
                             <img
