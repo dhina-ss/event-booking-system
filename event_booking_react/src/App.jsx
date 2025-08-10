@@ -5,6 +5,7 @@ import NavMenu from "./components/NavMenu";
 import Dashboard from "./components/Dashboard";
 import Footer from "./components/Footer";
 import MarriageHallPage from "./components/MarriageHallPage";
+import MarriageHall from "./components/MarriageHall";
 
 function App() {
 	return (
@@ -14,7 +15,8 @@ function App() {
 			<Routes>
 				<Route path="/" element={<Dashboard />} />
 				<Route path="/login" element={<LoginPage />} />
-				<Route path="/hall/:id" element={<MarriageHallPage />} />
+				<Route path="/marriage-hall" element={<MarriageHall />} />
+				<Route path="/marriage-hall/:id" element={<MarriageHallPage />} />
 			</Routes>
 			<Footer />
 		</Router>

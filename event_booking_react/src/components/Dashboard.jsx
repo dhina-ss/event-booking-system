@@ -6,7 +6,8 @@ function Dashboard() {
         top_deals: [
             { name: "Royal Palace Hall", rating: 4.5, price: "25,000", image: "https://placehold.co/400x300?text=Hall+Image" },
             { name: "Golden Dreams Hall", rating: 5, price: "40,000", image: "https://placehold.co/400x300?text=Hall+Image" },
-            { name: "Emerald Grand", rating: 3, price: "18,000", image: "https://placehold.co/400x300?text=Hall+Image" }
+            { name: "Emerald Grand", rating: 3, price: "18,000", image: "https://placehold.co/400x300?text=Hall+Image" },
+            { name: "Royal Palace Hall", rating: 4.5, price: "25,000", image: "https://placehold.co/400x300?text=Hall+Image" }
         ],
         popular_halls: [
             { name: "Crystal Ballroom", rating: 4.8, price: "30,000", image: "https://placehold.co/400x300?text=Hall+Image" },
@@ -32,7 +33,7 @@ function Dashboard() {
                     <h2 className="text-2xl font-semibold mb-4 capitalize">
                         {sectionName.replace(/_/g, " ")}
                     </h2>
-                    <div className="flex flex-wrap gap-[20px] justify-center mb-[40px]">
+                    <div className="grid grid-cols-3 gap-[30px] justify-center mb-[40px]">
                         {items.map((hall, index) => (
                             <Card key={index} {...hall} />
                         ))}

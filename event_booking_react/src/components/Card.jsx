@@ -29,7 +29,7 @@ function Card({ image, name, rating, price }) {
                 <div>
                     <h3 className="text-lg font-semibold mb-2">{name}</h3>
                     <p className="text-[#ff7a18] font-bold">₹{price}</p>
-                    <button className="rounded-[5px] border border-[#9a95b3] p-[10px] bg-[#c8c5d8] cursor-pointer hover:bg-[#9a95b3] transition">
+                    <button className="rounded-[5px] border border-[#9a95b3] p-[10px] bg-[#c8c5d8] text-[15px] cursor-pointer hover:bg-[#9a95b3] transition">
                         View Details
                     </button>
                 </div>
