@@ -1,12 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { faStar, faAngleDown, faAngleUp } from "@fortawesome/free-solid-svg-icons";
 import Breadcrumb from "./Breadcrumb";
 
 const MarriageHall = () => {
     const navigate = useNavigate();
+    const [minPrice, setMinPrice] = useState(5000);
+    const [maxPrice, setMaxPrice] = useState(1000000);
+    const [isOpen, setIsOpen] = useState(false);
+    const handleMinChange = (e) => {
+        const value = Number(e.target.value);
+        if (value < maxPrice) setMinPrice(value);
+    };
 
+    const handleMaxChange = (e) => {
+        const value = Number(e.target.value);
+        if (value > minPrice) setMaxPrice(value);
+    };
     const halls = [
         {
             id: 1,
@@ -63,9 +74,43 @@ const MarriageHall = () => {
 
                 {/* Filter Section */}
                 <div className="col-span-3 bg-white shadow-md p-[15px] rounded-[10px] border border-[#c1c1c1]">
-                    <div className="mb-[15px]">
-                        <label className="block text-[14px] font-medium mb-[5px]">Price Range</label>
-                        <input type="range" min="10000" max="50000" className="w-full" />
+                    <div className="pb-[15px] border-b-[1px] border-[#c1c1c1]">
+                        <div className="flex justify-between items-center cursor-pointer"
+                            onClick={() => setIsOpen(!isOpen)}
+                        >
+                            <label className="block text-[14px] font-medium">
+                                Price Range
+                            </label>
+                            <FontAwesomeIcon icon={isOpen ? faAngleUp : faAngleDown} />
+                        </div>
+                        {isOpen && (
+                            <>
+                                <div className="flex justify-between text-[14px] text-gray-600 mt-[20px] mb-[10px]">
+                                    <span>₹{minPrice.toLocaleString()}</span>
+                                    <span>₹{maxPrice.toLocaleString()}</span>
+                                </div>
+                                <div className="relative w-full h-[30px]">
+                                    <input
+                                        type="range"
+                                        min="5000"
+                                        max="1000000"
+                                        step="5000"
+                                        value={minPrice}
+                                        onChange={handleMinChange}
+                                        className="absolute w-full pointer-events-none bg-[#c6e4ff] rounded-full outline-none appearance-none [&::-webkit-slider-thumb]:pointer-events-auto"
+                                    />
+                                    <input
+                                        type="range"
+                                        min="5000"
+                                        max="1000000"
+                                        step="5000"
+                                        value={maxPrice}
+                                        onChange={handleMaxChange}
+                                        className="absolute w-full pointer-events-none appearance-none outline-none bg-transparent [&::-webkit-slider-thumb]:pointer-events-auto"
+                                    />
+                                </div>
+                            </>
+                        )}
                     </div>
                     <div className="mb-[15px]">
                         <label className="block text-[14px] font-medium mb-[5px]">Location</label>
