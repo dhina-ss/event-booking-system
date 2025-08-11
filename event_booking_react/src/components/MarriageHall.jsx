@@ -12,6 +12,10 @@ const MarriageHall = () => {
     const [isLocationOpen, setIsLocationOpen] = useState(false);
     const [isRatingOpen, setIsRatingOpen] = useState(false);
     const [isHallTypeOpen, setIsHallTypeOpen] = useState(false);
+    const [isHallCapacityOpen, setIsHallCapacityOpen] = useState(false);
+    const [isDiningCapacityOpen, setIsDiningCapacityOpen] = useState(false);
+    const [maxHallCapacity, setMaxHallCapacity] = useState(10000);
+    const [maxDiningCapacity, setMaxDiningCapacity] = useState(10000);
     const [selectedLocations, setSelectedLocations] = useState([]);
     const [selectedRatings, setSelectedRatings] = useState([]);
     const [selectedHallType, setSelectedHallType] = useState([]);
@@ -33,7 +37,7 @@ const MarriageHall = () => {
         );
     };
     const handleHallTypeCheckboxChange = (halltype) => {
-        setSelectedRatings((prev) =>
+        setSelectedHallType((prev) =>
             prev.includes(halltype)
                 ? prev.filter((item) => item !== halltype)
                 : [...prev, halltype]
@@ -43,11 +47,17 @@ const MarriageHall = () => {
         const value = Number(e.target.value);
         if (value < maxPrice) setMinPrice(value);
     };
-
+    
     const handleMaxChange = (e) => {
         const value = Number(e.target.value);
         if (value > minPrice) setMaxPrice(value);
     };
+    
+    const handleMaxHallCapacity = (e) => {
+        const value = Number(e.target.value);
+        if (value < maxPrice) setMaxHallCapacity(value);
+    };
+    
     const halls = [
         {
             id: 1,
@@ -212,6 +222,33 @@ const MarriageHall = () => {
                             </div>
                         )}
                     </div>
+                    <div className="pb-[15px] mt-[10px] border-b-[1px] border-[#c1c1c1]">
+                        <div className="flex justify-between items-center cursor-pointer"
+                            onClick={() => setIsHallCapacityOpen(!isHallCapacityOpen)}
+                        >
+                            <label className="block text-[14px] font-medium">Hall Seat Capacity</label>
+                            <FontAwesomeIcon icon={isHallCapacityOpen ? faAngleUp : faAngleDown} />
+                        </div>
+                        {isHallCapacityOpen && (
+                            <>
+                                <div className="flex justify-between text-[14px] text-gray-600 mt-[20px] mb-[10px]">
+                                    <span>₹{maxHallCapacity.toLocaleString()}</span>
+                                </div>
+                                <div className="relative w-full h-[30px]">
+                                    <input
+                                        type="range"
+                                        min="100"
+                                        max="10000"
+                                        step="100"
+                                        value={maxHallCapacity}
+                                        onChange={handleMaxHallCapacity}
+                                        className="absolute w-full pointer-events-none bg-[#c6e4ff] rounded-full outline-none appearance-none [&::-webkit-slider-thumb]:pointer-events-auto"
+                                    />
+                                </div>
+                            </>
+                        )}
+                    </div>
+                    {/* Button */}
                     <div className="mt-[20px] text-right">
                         <button className="px-[20px] py-[10px] text-[15px] bg-[#068488] border-none rounded-[3px] text-[whitesmoke] cursor-pointer hover:bg-[#046568] transition">Apply</button>
                     </div>
