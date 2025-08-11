@@ -58,6 +58,11 @@ const MarriageHall = () => {
         if (value < maxPrice) setMaxHallCapacity(value);
     };
     
+    const handleMaxDiningCapacity = (e) => {
+        const value = Number(e.target.value);
+        if (value < maxPrice) setMaxDiningCapacity(value);
+    };
+    
     const halls = [
         {
             id: 1,
@@ -222,7 +227,7 @@ const MarriageHall = () => {
                             </div>
                         )}
                     </div>
-                    <div className="pb-[15px] mt-[10px] border-b-[1px] border-[#c1c1c1]">
+                    <div className="py-[15px] border-b-[1px] border-[#c1c1c1]">
                         <div className="flex justify-between items-center cursor-pointer"
                             onClick={() => setIsHallCapacityOpen(!isHallCapacityOpen)}
                         >
@@ -242,6 +247,32 @@ const MarriageHall = () => {
                                         step="100"
                                         value={maxHallCapacity}
                                         onChange={handleMaxHallCapacity}
+                                        className="absolute w-full pointer-events-none bg-[#c6e4ff] rounded-full outline-none appearance-none [&::-webkit-slider-thumb]:pointer-events-auto"
+                                    />
+                                </div>
+                            </>
+                        )}
+                    </div>
+                    <div className="py-[15px] border-b-[1px] border-[#c1c1c1]">
+                        <div className="flex justify-between items-center cursor-pointer"
+                            onClick={() => setIsDiningCapacityOpen(!isDiningCapacityOpen)}
+                        >
+                            <label className="block text-[14px] font-medium">Dining Seat Capacity</label>
+                            <FontAwesomeIcon icon={isDiningCapacityOpen ? faAngleUp : faAngleDown} />
+                        </div>
+                        {isDiningCapacityOpen && (
+                            <>
+                                <div className="flex justify-between text-[14px] text-gray-600 mt-[20px] mb-[10px]">
+                                    <span>₹{maxDiningCapacity.toLocaleString()}</span>
+                                </div>
+                                <div className="relative w-full h-[30px]">
+                                    <input
+                                        type="range"
+                                        min="100"
+                                        max="10000"
+                                        step="100"
+                                        value={maxDiningCapacity}
+                                        onChange={handleMaxDiningCapacity}
                                         className="absolute w-full pointer-events-none bg-[#c6e4ff] rounded-full outline-none appearance-none [&::-webkit-slider-thumb]:pointer-events-auto"
                                     />
                                 </div>
