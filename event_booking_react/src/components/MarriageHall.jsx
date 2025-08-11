@@ -8,7 +8,37 @@ const MarriageHall = () => {
     const navigate = useNavigate();
     const [minPrice, setMinPrice] = useState(5000);
     const [maxPrice, setMaxPrice] = useState(1000000);
-    const [isOpen, setIsOpen] = useState(false);
+    const [isPriceOpen, setIsPriceOpen] = useState(false);
+    const [isLocationOpen, setIsLocationOpen] = useState(false);
+    const [isRatingOpen, setIsRatingOpen] = useState(false);
+    const [isHallTypeOpen, setIsHallTypeOpen] = useState(false);
+    const [selectedLocations, setSelectedLocations] = useState([]);
+    const [selectedRatings, setSelectedRatings] = useState([]);
+    const [selectedHallType, setSelectedHallType] = useState([]);
+    const districts = ["Chennai", "Coimbatore", "Madurai", "Salem", "Thanjavur", "Trichy"];
+    const ratings = ["⭐⭐⭐⭐⭐", "⭐⭐⭐⭐", "⭐⭐⭐", "⭐⭐", "⭐"];
+    const hallTypes = ["AC Hall", "Non-AC Hall"];
+    const handleDistrictCheckboxChange = (district) => {
+        setSelectedLocations((prev) =>
+            prev.includes(district)
+                ? prev.filter((item) => item !== district)
+                : [...prev, district]
+        );
+    };
+    const handleRatingCheckboxChange = (rating) => {
+        setSelectedRatings((prev) =>
+            prev.includes(rating)
+                ? prev.filter((item) => item !== rating)
+                : [...prev, rating]
+        );
+    };
+    const handleHallTypeCheckboxChange = (halltype) => {
+        setSelectedRatings((prev) =>
+            prev.includes(halltype)
+                ? prev.filter((item) => item !== halltype)
+                : [...prev, halltype]
+        );
+    };
     const handleMinChange = (e) => {
         const value = Number(e.target.value);
         if (value < maxPrice) setMinPrice(value);
@@ -74,16 +104,14 @@ const MarriageHall = () => {
 
                 {/* Filter Section */}
                 <div className="col-span-3 bg-white shadow-md p-[15px] rounded-[10px] border border-[#c1c1c1]">
-                    <div className="pb-[15px] border-b-[1px] border-[#c1c1c1]">
+                    <div className="pb-[15px] mt-[10px] border-b-[1px] border-[#c1c1c1]">
                         <div className="flex justify-between items-center cursor-pointer"
-                            onClick={() => setIsOpen(!isOpen)}
+                            onClick={() => setIsPriceOpen(!isPriceOpen)}
                         >
-                            <label className="block text-[14px] font-medium">
-                                Price Range
-                            </label>
-                            <FontAwesomeIcon icon={isOpen ? faAngleUp : faAngleDown} />
+                            <label className="block text-[14px] font-medium">Price</label>
+                            <FontAwesomeIcon icon={isPriceOpen ? faAngleUp : faAngleDown} />
                         </div>
-                        {isOpen && (
+                        {isPriceOpen && (
                             <>
                                 <div className="flex justify-between text-[14px] text-gray-600 mt-[20px] mb-[10px]">
                                     <span>₹{minPrice.toLocaleString()}</span>
@@ -112,36 +140,80 @@ const MarriageHall = () => {
                             </>
                         )}
                     </div>
-                    <div className="mb-[15px]">
-                        <label className="block text-[14px] font-medium mb-[5px]">Location</label>
-                        <select className="w-full border border-gray-300 p-[5px] rounded">
-                            <option>All</option>
-                            <option>Chennai</option>
-                            <option>Coimbatore</option>
-                            <option>Madurai</option>
-                            <option>Salem</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label className="block text-[14px] font-medium mb-[5px]">Rating</label>
-                        <select className="w-full border border-gray-300 p-[5px] rounded">
-                            <option>All</option>
-                            <option>4+ stars</option>
-                            <option>3+ stars</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label className="block text-[14px] font-medium mb-[5px]">Hall Type</label>
-                        <div className="space-y-[5px]">
-                            <label className="flex items-center space-x-[8px]">
-                                <input type="checkbox" className="w-[16px] h-[16px]" />
-                                <span>AC Hall</span>
-                            </label>
-                            <label className="flex items-center space-x-[8px]">
-                                <input type="checkbox" className="w-[16px] h-[16px]" />
-                                <span>Non-AC Hall</span>
-                            </label>
+                    <div className="py-[15px] border-b-[1px] border-[#c1c1c1]">
+                        <div
+                            className="flex justify-between items-center cursor-pointer"
+                            onClick={() => setIsLocationOpen(!isLocationOpen)}
+                        >
+                            <label className="block text-[14px] font-medium">Location</label>
+                            <FontAwesomeIcon icon={isLocationOpen ? faAngleUp : faAngleDown} />
                         </div>
+                        {isLocationOpen && (
+                            <div className="mt-[20px] space-y-[10px]">
+                                {districts.map((district) => (
+                                    <label key={district} className="flex items-center text-[14px] text-gray-700">
+                                        <input
+                                            type="checkbox"
+                                            className="mr-[8px]"
+                                            checked={selectedLocations.includes(district)}
+                                            onChange={() => handleDistrictCheckboxChange(district)}
+                                        />
+                                        {district}
+                                    </label>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                    <div className="py-[15px] border-b-[1px] border-[#c1c1c1]">
+                        <div
+                            className="flex justify-between items-center cursor-pointer"
+                            onClick={() => setIsRatingOpen(!isRatingOpen)}
+                        >
+                            <label className="block text-[14px] font-medium">Rating</label>
+                            <FontAwesomeIcon icon={isRatingOpen ? faAngleUp : faAngleDown} />
+                        </div>
+                        {isRatingOpen && (
+                            <div className="mt-[20px] space-y-[10px]">
+                                {ratings.map((rating) => (
+                                    <label key={rating} className="flex items-center text-[14px] text-gray-700">
+                                        <input
+                                            type="checkbox"
+                                            className="mr-[8px]"
+                                            checked={selectedRatings.includes(rating)}
+                                            onChange={() => handleRatingCheckboxChange(rating)}
+                                        />
+                                        {rating}
+                                    </label>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                    <div className="py-[15px] border-b-[1px] border-[#c1c1c1]">
+                        <div
+                            className="flex justify-between items-center cursor-pointer"
+                            onClick={() => setIsHallTypeOpen(!isHallTypeOpen)}
+                        >
+                            <label className="block text-[14px] font-medium">Hall Type</label>
+                            <FontAwesomeIcon icon={isHallTypeOpen ? faAngleUp : faAngleDown} />
+                        </div>
+                        {isHallTypeOpen && (
+                            <div className="mt-[20px] space-y-[10px]">
+                                {hallTypes.map((halltype) => (
+                                    <label key={halltype} className="flex items-center text-[14px] text-gray-700">
+                                        <input
+                                            type="checkbox"
+                                            className="mr-[8px]"
+                                            checked={selectedHallType.includes(halltype)}
+                                            onChange={() => handleHallTypeCheckboxChange(halltype)}
+                                        />
+                                        {halltype}
+                                    </label>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                    <div className="mt-[20px] text-right">
+                        <button className="px-[20px] py-[10px] text-[15px] bg-[#068488] border-none rounded-[3px] text-[whitesmoke] cursor-pointer hover:bg-[#046568] transition">Apply</button>
                     </div>
                 </div>
 
