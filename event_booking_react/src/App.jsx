@@ -5,12 +5,13 @@ import Dashboard from "./components/Dashboard";
 import Footer from "./components/Footer";
 import MarriageHallPage from "./components/MarriageHallPage";
 import MarriageHall from "./components/MarriageHall";
+import SearchForm from "./components/SearchForm";
 
 function App() {
 	return (
 		<Router>
 			<Header />
-			{/* <NavMenu /> */}
+			<SearchForm />
 			<Routes>
 				<Route path="/" element={<Dashboard />} />
 				<Route path="/login" element={<LoginPage />} />
