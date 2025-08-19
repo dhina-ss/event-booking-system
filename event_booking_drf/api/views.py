@@ -13,6 +13,13 @@ class HallListAPIView(APIView):
     
     @swagger_auto_schema(request_body=EventHallSerializer)
     def post(self, request):
+        email = request.data.get('email')
+        if EventHall.objects.filter(email=email):
+            return Response(
+                {"error": "This email is already registered."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
         serializer = EventHallSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
